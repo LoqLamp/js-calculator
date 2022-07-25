@@ -17,16 +17,16 @@ let sum = null;
 let equal;
 
 const outputScreen = document.querySelector("p.output");
-
 const numberButtons = document.querySelectorAll("button.numbers");
 const operators = document.querySelectorAll("button.operators");
+const clearButton = document.querySelector(".top-row.clear");
 const equals = document.querySelector("button.equals");
 
 numberButtons.forEach((element) => {
   element.addEventListener("click", () => {
     numbers += element.value;
     console.log(element);
-    showOutput(numbers);
+    showPressButtons(numbers);
   });
 });
 
@@ -43,7 +43,16 @@ equals.addEventListener("click", () => {
   getSum(equal);
 });
 
-function showOutput(numbers) {
+clearButton.addEventListener("click", () => {
+  numbers = "";
+  num2 = "";
+  operator = null;
+  sum = null;
+  equal = null;
+  outputScreen.textContent = "";
+});
+
+function showPressButtons(numbers) {
   outputScreen.textContent = numbers;
 }
 
@@ -52,20 +61,24 @@ function getSum(operator) {
   if (sum === null) {
     sum = numbers;
     numbers = "";
-    showOutput(numbers);
     return;
   }
   if (operator === "operators add") {
     sum = +sum + +numbers;
     numbers = "";
     outputScreen.textContent = sum;
-    return;
   }
   if (operator === "operators subtract") {
     sum = +sum - +numbers;
     numbers = "";
     outputScreen.textContent = sum;
-    return;
   }
-  console.log(sum, numbers);
+  if (operator === "operators multiply") {
+    sum = +sum * +numbers;
+    numbers = "";
+  }
+  if (operator === "operators divide") {
+    sum = Number.parseFloat(sum / numbers).toFixed(4);
+  }
+  return (outputScreen.textContent = sum);
 }
