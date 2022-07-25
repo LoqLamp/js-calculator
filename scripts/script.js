@@ -1,5 +1,5 @@
 // Takes input 0-9
-// Add event listeners to numbers
+// Add event listeners to currentNumber
 // Stores input num 1
 // Shows num 1. - template literal
 // Takes operator
@@ -10,8 +10,8 @@
 // Shows sum on equals
 
 // let textOutput = "";
-let numbers = "";
-let num2 = "";
+let currentNumber = "";
+let previousNumber = "";
 let operator;
 let sum = null;
 let equal;
@@ -24,15 +24,15 @@ const equals = document.querySelector("button.equals");
 
 numberButtons.forEach((element) => {
   element.addEventListener("click", () => {
-    numbers += element.value;
+    currentNumber += element.value;
     console.log(element);
-    showPressButtons(numbers);
+    showPressButtons(currentNumber);
   });
 });
 
 operators.forEach((element) => {
   element.addEventListener("click", () => {
-    operator = element.className;
+    operator = element.value;
     console.log(operator);
     getSum(operator);
   });
@@ -44,41 +44,41 @@ equals.addEventListener("click", () => {
 });
 
 clearButton.addEventListener("click", () => {
-  numbers = "";
-  num2 = "";
+  currentNumber = "";
+  previousNumber = "";
   operator = null;
   sum = null;
   equal = null;
   outputScreen.textContent = "";
 });
 
-function showPressButtons(numbers) {
-  outputScreen.textContent = numbers;
+function showPressButtons(currentNumber) {
+  outputScreen.textContent = currentNumber;
 }
 
 function getSum(operator) {
   console.log(operator);
   if (sum === null) {
-    sum = numbers;
-    numbers = "";
+    sum = currentNumber;
+    currentNumber = "";
     return;
   }
-  if (operator === "operators add") {
-    sum = +sum + +numbers;
-    numbers = "";
+  if (operator === "+") {
+    sum = +sum + +currentNumber;
+    currentNumber = "";
     outputScreen.textContent = sum;
   }
-  if (operator === "operators subtract") {
-    sum = +sum - +numbers;
-    numbers = "";
+  if (operator === "-") {
+    sum = +sum - +currentNumber;
+    currentNumber = "";
     outputScreen.textContent = sum;
   }
-  if (operator === "operators multiply") {
-    sum = +sum * +numbers;
-    numbers = "";
+  if (operator === "x") {
+    sum = +sum * +currentNumber;
+    currentNumber = "";
   }
-  if (operator === "operators divide") {
-    sum = Number.parseFloat(sum / numbers).toFixed(4);
+  if (operator === "&#247;") {
+    sum = Number.parseFloat(sum / currentNumber).toFixed(4);
   }
   return (outputScreen.textContent = sum);
 }
