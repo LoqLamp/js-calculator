@@ -9,31 +9,63 @@
 // Stores input num 2
 // Shows sum on equals
 
-let num1 = "";
-let num2;
+// let textOutput = "";
+let numbers = "";
+let num2 = "";
 let operator;
-let sum;
+let sum = null;
+let equal;
+
 const outputScreen = document.querySelector("p.output");
 
-const numbers = document.querySelectorAll("button.numbers");
+const numberButtons = document.querySelectorAll("button.numbers");
 const operators = document.querySelectorAll("button.operators");
+const equals = document.querySelector("button.equals");
 
-numbers.forEach((element) => {
+numberButtons.forEach((element) => {
   element.addEventListener("click", () => {
-    num1 += element.value;
+    numbers += element.value;
     console.log(element);
-    showOutput(num1);
+    showOutput(numbers);
   });
 });
 
-function showOutput(num1) {
-  outputScreen.textContent = num1;
+operators.forEach((element) => {
+  element.addEventListener("click", () => {
+    operator = element.className;
+    console.log(operator);
+    getSum(operator);
+  });
+});
+
+equals.addEventListener("click", () => {
+  equal = operator;
+  getSum(equal);
+});
+
+function showOutput(numbers) {
+  outputScreen.textContent = numbers;
 }
 
-operators.forEach((currentItem) => {
-  currentItem.addEventListener("click", (e) => {
-    num2 = num1;
-    output.textContent = sum;
-    console.log(e, currentItem);
-  });
-});
+function getSum(operator) {
+  console.log(operator);
+  if (sum === null) {
+    sum = numbers;
+    numbers = "";
+    showOutput(numbers);
+    return;
+  }
+  if (operator === "operators add") {
+    sum = +sum + +numbers;
+    numbers = "";
+    outputScreen.textContent = sum;
+    return;
+  }
+  if (operator === "operators subtract") {
+    sum = +sum - +numbers;
+    numbers = "";
+    outputScreen.textContent = sum;
+    return;
+  }
+  console.log(sum, numbers);
+}
