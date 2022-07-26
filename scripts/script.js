@@ -27,6 +27,12 @@ const multiplyNumbers = function (previousNumber, currentNumber) {
 };
 
 const divideNumbers = function (previousNumber, currentNumber) {
+  if (previousNumber || currentNumber === 0) {
+    return (outputScreen.textContent = "Nice Try!");
+  }
+  if (previousNumber % currentNumber === 0) {
+    return previousNumber / currentNumber;
+  }
   return Number.parseFloat(previousNumber / currentNumber).toFixed(4);
 };
 
@@ -96,7 +102,7 @@ function operate() {
     result = subtractNumbers(previousNumber, currentNumber);
   } else if (previousOperator === "x") {
     result = multiplyNumbers(previousNumber, currentNumber);
-  } else if (previousOperator === "&#247;") {
+  } else if (previousOperator === "/") {
     result = divideNumbers(previousNumber, currentNumber);
   }
   currentNumber = "";
