@@ -1,14 +1,4 @@
 "use strict";
-// Takes input 0-9
-// Add event listeners to currentNumber
-// Stores input num 1
-// Shows num 1. - template literal
-// Takes operator
-// Stores operator - boolean for which function?
-// Shows operator/screen?/highlight? - template literal
-// Takes input num 2
-// Stores input num 2
-// Shows result on equals
 
 // let textOutput = "";
 let currentNumber = "";
@@ -24,6 +14,22 @@ const operators = document.querySelectorAll("button.operators");
 const clearButton = document.querySelector(".top-row.clear");
 const equals = document.querySelector("button.equals");
 
+const addNumbers = function (previousNumber, currentNumber) {
+  return +previousNumber + +currentNumber;
+};
+
+const subtractNumbers = function (previousNumber, currentNumber) {
+  return previousNumber - currentNumber;
+};
+
+const multiplyNumbers = function (previousNumber, currentNumber) {
+  return previousNumber * currentNumber;
+};
+
+const divideNumbers = function (previousNumber, currentNumber) {
+  return Number.parseFloat(previousNumber / currentNumber).toFixed(4);
+};
+
 numberButtons.forEach((numButton) => {
   numButton.addEventListener("click", () => {
     console.log(numButton);
@@ -35,15 +41,14 @@ numberButtons.forEach((numButton) => {
 function getNumbers(numButton) {
   let num1 = "";
   let num2 = "";
-  if (operator.length < 1) {
+  if (operator.length === 0) {
     num1 += numButton;
   } else if (operator.length === 1) {
     num2 += numButton;
-  } else if (operator.length >= 2) {
-    operate(currentNumber, previousNumber, operator);
   }
-  currentNumber += num1;
-  previousNumber += num2;
+
+  previousNumber += num1;
+  currentNumber += num2;
   console.log(currentNumber, previousNumber, num1, num2);
 }
 console.log(currentNumber);
@@ -56,9 +61,13 @@ operators.forEach((operatorButton) => {
 });
 
 function getOperator(operatorValue) {
-  operator.push(operatorValue);
+  operator.unshift(operatorValue);
+  if (operator.length >= 2) {
+    previousOperator = operator.pop();
+    operate(previousNumber, currentNumber);
+  }
+  console.log(operator);
 }
-console.log(operator, previousOperator);
 
 equals.addEventListener("click", () => {
   equal = operator;
@@ -78,20 +87,18 @@ function showPressButtons(numButton) {
   outputScreen.textContent = numButton;
 }
 
-function operate(currentNumber, previousNumber, operator) {}
-
-const addNumbers = function (previousNumber, currentNumber) {
-  return (result = +previousNumber + +currentNumber);
-};
-
-const subtractNumbers = function (previousNumber, currentNumber) {
-  return previousNumber - currentNumber;
-};
-
-const multiplyNumbers = function (previousNumber, currentNumber) {
-  return previousNumber * currentNumber;
-};
-
-const divideNumbers = function (previousNumber, currentNumber) {
-  return Number.parseFloat(previousNumber / currentNumber).toFixed(4);
-};
+function operate() {
+  if (previousOperator === "+") {
+    result = addNumbers(previousNumber, currentNumber);
+  } else if (previousOperator === "-") {
+    result = subtractNumbers(previousNumber, currentNumber);
+  } else if (previousOperator === "x") {
+    result = multiplyNumbers(previousNumber, currentNumber);
+  } else if (previousOperator === "&#247;") {
+    result = divideNumbers(previousNumber, currentNumber);
+  }
+  currentNumber = "";
+  previousNumber = result;
+  outputScreen.textContent = result;
+  console.log(result);
+}
