@@ -13,7 +13,8 @@
 // let textOutput = "";
 let currentNumber = "";
 let previousNumber = "";
-let operator;
+let operator = [];
+let previousOperator = [];
 let result = null;
 let equal;
 
@@ -23,21 +24,41 @@ const operators = document.querySelectorAll("button.operators");
 const clearButton = document.querySelector(".top-row.clear");
 const equals = document.querySelector("button.equals");
 
-numberButtons.forEach((element) => {
-  element.addEventListener("click", () => {
-    currentNumber += element.value;
-    console.log(element);
-    showPressButtons(currentNumber);
+numberButtons.forEach((numButton) => {
+  numButton.addEventListener("click", () => {
+    console.log(numButton);
+    showPressButtons(numButton.value);
+    getNumbers(numButton.value);
   });
 });
 
-operators.forEach((element) => {
-  element.addEventListener("click", () => {
-    operator = element.value;
+function getNumbers(numButton) {
+  let num1 = "";
+  let num2 = "";
+  if (operator.length < 1) {
+    num1 += numButton;
+  } else if (operator.length === 1) {
+    num2 += numButton;
+  } else if (operator.length >= 2) {
+    operate(currentNumber, previousNumber, operator);
+  }
+  currentNumber += num1;
+  previousNumber += num2;
+  console.log(currentNumber, previousNumber, num1, num2);
+}
+console.log(currentNumber);
+
+operators.forEach((operatorButton) => {
+  operatorButton.addEventListener("click", () => {
+    getOperator(operatorButton.value);
     console.log(operator);
-    getSum(operator);
   });
 });
+
+function getOperator(operatorValue) {
+  operator.push(operatorValue);
+}
+console.log(operator, previousOperator);
 
 equals.addEventListener("click", () => {
   equal = operator;
@@ -53,9 +74,11 @@ clearButton.addEventListener("click", () => {
   outputScreen.textContent = "";
 });
 
-function showPressButtons(currentNumber) {
-  outputScreen.textContent = currentNumber;
+function showPressButtons(numButton) {
+  outputScreen.textContent = numButton;
 }
+
+function operate(currentNumber, previousNumber, operator) {}
 
 const addNumbers = function (previousNumber, currentNumber) {
   return (result = +previousNumber + +currentNumber);
