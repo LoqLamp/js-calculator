@@ -6,13 +6,13 @@ let previousNumber = "";
 let operator = [];
 let previousOperator = [];
 let result = null;
-let equal;
+let equalBtn = null;
 
 const outputScreen = document.querySelector("p.output");
 const numberButtons = document.querySelectorAll("button.numbers");
 const operators = document.querySelectorAll("button.operators");
 const clearButton = document.querySelector(".top-row.clear");
-const equals = document.querySelector("button.equals");
+const equalButton = document.querySelector("button.equals");
 
 const addNumbers = function (previousNumber, currentNumber) {
   return +previousNumber + +currentNumber;
@@ -69,17 +69,19 @@ function getOperator(operatorValue) {
   console.log(operator);
 }
 
-equals.addEventListener("click", () => {
-  equal = operator;
-  getSum(equal);
+equalButton.addEventListener("click", () => {
+  equalBtn = true;
+  previousOperator = operator.pop();
+  operate(previousNumber, currentNumber);
 });
 
 clearButton.addEventListener("click", () => {
   currentNumber = "";
   previousNumber = "";
-  operator = null;
+  operator = [];
+  previousOperator = [];
   result = null;
-  equal = null;
+  equalBtn = null;
   outputScreen.textContent = "";
 });
 
@@ -101,4 +103,8 @@ function operate() {
   previousNumber = result;
   outputScreen.textContent = result;
   console.log(result);
+  if (equalBtn === true) {
+    previousNumber = "";
+    equalBtn = false;
+  }
 }
