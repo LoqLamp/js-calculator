@@ -6,10 +6,11 @@ let previousNumber = "";
 let operator = [];
 let previousOperator = [];
 let result = null;
-let equalBtn = null;
+let equalBtn = [];
 
 const outputScreen = document.querySelector("p.output");
 const numberButtons = document.querySelectorAll("button.numbers");
+const decimalPlace = document.querySelector("button.dot");
 const operators = document.querySelectorAll("button.operators");
 const clearButton = document.querySelector(".top-row.clear");
 const equalButton = document.querySelector("button.equals");
@@ -44,9 +45,19 @@ numberButtons.forEach((numButton) => {
   });
 });
 
+decimalPlace.addEventListener("click", () => {
+  showPressButtons(decimalPlace.value);
+  getNumbers(decimalPlace.value);
+  decimalPlace.disabled = true;
+});
+
 function getNumbers(numButton) {
   let num1 = "";
   let num2 = "";
+  if (equalBtn[1] === "reset") {
+    outputScreen.textContent = numButton;
+    equalBtn[1] = "noReset";
+  }
   if (operator.length === 0) {
     num1 += numButton;
   } else if (operator.length === 1) {
@@ -62,6 +73,7 @@ console.log(currentNumber);
 operators.forEach((operatorButton) => {
   operatorButton.addEventListener("click", () => {
     getOperator(operatorButton.value);
+    decimalPlace.disabled = false;
     console.log(operator);
   });
 });
@@ -72,11 +84,12 @@ function getOperator(operatorValue) {
     previousOperator = operator.pop();
     operate(previousNumber, currentNumber);
   }
+  // outputScreen.textContent = "";
   console.log(operator);
 }
 
 equalButton.addEventListener("click", () => {
-  equalBtn = true;
+  equalBtn.splice(0, 2, true, "noReset");
   previousOperator = operator.pop();
   operate(previousNumber, currentNumber);
 });
@@ -87,12 +100,12 @@ clearButton.addEventListener("click", () => {
   operator = [];
   previousOperator = [];
   result = null;
-  equalBtn = null;
+  equalBtn = [];
   outputScreen.textContent = "";
 });
 
 function showPressButtons(numButton) {
-  outputScreen.textContent = numButton;
+  outputScreen.textContent += numButton;
 }
 
 function operate() {
@@ -106,11 +119,12 @@ function operate() {
     result = divideNumbers(previousNumber, currentNumber);
   }
   currentNumber = "";
+  decimalPlace.disabled = false;
   previousNumber = result;
   outputScreen.textContent = result;
   console.log(result);
-  if (equalBtn === true) {
+  if (equalBtn[0] === true) {
     previousNumber = "";
-    equalBtn = false;
+    equalBtn.splice(0, 2, false, "reset");
   }
 }
