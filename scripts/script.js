@@ -40,13 +40,13 @@ const divideNumbers = function (previousNumber, currentNumber) {
 numberButtons.forEach((numButton) => {
   numButton.addEventListener("click", () => {
     console.log(numButton);
-    showPressButtons(numButton.value);
+    // showPressedButtons(numButton.value);
     getNumbers(numButton.value);
   });
 });
 
 decimalPlace.addEventListener("click", () => {
-  showPressButtons(decimalPlace.value);
+  showPressedButtons(+decimalPlace.value);
   getNumbers(decimalPlace.value);
   decimalPlace.disabled = true;
 });
@@ -66,9 +66,18 @@ function getNumbers(numButton) {
 
   previousNumber += num1;
   currentNumber += num2;
+  showPressedButtons();
   console.log(currentNumber, previousNumber, num1, num2);
 }
 console.log(currentNumber);
+
+function showPressedButtons() {
+  if (operator.length === 0) {
+    outputScreen.textContent = previousNumber;
+  } else if (operator.length === 1) {
+    outputScreen.textContent = currentNumber;
+  }
+}
 
 operators.forEach((operatorButton) => {
   operatorButton.addEventListener("click", () => {
@@ -84,7 +93,6 @@ function getOperator(operatorValue) {
     previousOperator = operator.pop();
     operate(previousNumber, currentNumber);
   }
-  // outputScreen.textContent = "";
   console.log(operator);
 }
 
@@ -104,10 +112,6 @@ clearButton.addEventListener("click", () => {
   outputScreen.textContent = "";
 });
 
-function showPressButtons(numButton) {
-  outputScreen.textContent += numButton;
-}
-
 function operate() {
   if (previousOperator === "+") {
     result = addNumbers(previousNumber, currentNumber);
@@ -118,11 +122,15 @@ function operate() {
   } else if (previousOperator === "/") {
     result = divideNumbers(previousNumber, currentNumber);
   }
+  endOperate();
+  console.log(result);
+}
+
+function endOperate() {
   currentNumber = "";
   decimalPlace.disabled = false;
   previousNumber = result;
   outputScreen.textContent = result;
-  console.log(result);
   if (equalBtn[0] === true) {
     previousNumber = "";
     equalBtn.splice(0, 2, false, "reset");
