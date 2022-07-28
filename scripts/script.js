@@ -71,11 +71,13 @@ function getNumbers(numButton) {
 }
 console.log(currentNumber);
 
-function showPressedButtons() {
+function showPressedButtons(output) {
   if (operator.length === 0) {
     outputScreen.textContent = previousNumber;
   } else if (operator.length === 1) {
     outputScreen.textContent = currentNumber;
+  } else {
+    outputScreen = output;
   }
 }
 
@@ -93,6 +95,7 @@ function getOperator(operatorValue) {
     previousOperator = operator.pop();
     operate(previousNumber, currentNumber);
   }
+  showPressedButtons("");
   console.log(operator);
 }
 
@@ -109,7 +112,7 @@ clearButton.addEventListener("click", () => {
   previousOperator = [];
   result = null;
   equalBtn = [];
-  outputScreen.textContent = "";
+  showPressedButtons("");
 });
 
 function operate() {
@@ -130,7 +133,8 @@ function endOperate() {
   currentNumber = "";
   decimalPlace.disabled = false;
   previousNumber = result;
-  outputScreen.textContent = result;
+  showPressedButtons(result);
+  // outputScreen.textContent = result;
   if (equalBtn[0] === true) {
     previousNumber = "";
     equalBtn.splice(0, 2, false, "reset");
