@@ -37,7 +37,7 @@ body {
   display: flex;
   flex-flow: row-reverse wrap;
   align-items: center;
-  min-width: 90%;
+  width: 90%;
   min-height: 20%;
   text-align: right;
   background-color: white;
@@ -46,6 +46,7 @@ body {
 
 .output-screen > p {
   margin: 0 2.5%;
+  overflow: hidden;
 }
 
 #calculator-buttons-container {

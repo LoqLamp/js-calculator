@@ -13,6 +13,7 @@ const numberButtons = document.querySelectorAll("button.numbers");
 const decimalPlace = document.querySelector("button.dot");
 const operators = document.querySelectorAll("button.operators");
 const clearButton = document.querySelector(".top-row.clear");
+const backSpace = document.querySelector(".top-row.backspace");
 const equalButton = document.querySelector("button.equals");
 
 const addNumbers = function (previousNumber, currentNumber) {
@@ -113,6 +114,16 @@ clearButton.addEventListener("click", () => {
   result = null;
   equalBtn = [];
   showPressedButtons("");
+});
+
+backSpace.addEventListener("click", () => {
+  if (operator.length === 0) {
+    previousNumber = previousNumber.slice(0, -1);
+    showPressedButtons(previousNumber);
+  } else if (operator.length === 1) {
+    currentNumber = currentNumber.slice(0, -1);
+    showPressedButtons(currentNumber);
+  }
 });
 
 function operate() {
